@@ -2,7 +2,7 @@
 
 Calcolatore web che, a partire dalla retribuzione annua lorda, restituisce il netto annuo e mensile mostrando **ogni singola trattenuta**: contributi previdenziali, IRPEF lorda, detrazioni, addizionali regionale e comunale, cuneo fiscale e trattamento integrativo.
 
-**▶ [Apri il calcolatore](https://francesc38c03.github.io/Calcolatore-netto-2026/)**
+**▶ [Apri il calcolatore](https://USERNAME.github.io/calcolatore-netto-2026/)**
 
 ![Il calcolatore](docs/screenshot.png)
 
@@ -25,15 +25,20 @@ L'ordine delle operazioni è la parte in cui i simulatori sbagliano più spesso,
 
 ```
 RAL
- └─ − contributi previdenziali (base capped al massimale)
-     └─ = reddito complessivo / reddito di lavoro dipendente
-         ├─ IRPEF lorda per scaglioni (23% / 33% / 43%)
-         ├─ − detrazioni  art. 13 (lavoro) + art. 12 (famiglia) + cuneo c. 6
-         ├─ = IRPEF netta, con floor a zero: l'eccedenza si perde
-         ├─ addizionali, DOVUTE SOLO SE l'IRPEF netta è positiva,
-         │  calcolate sul reddito complessivo e non ridotte dalle detrazioni
-         └─ + somma cuneo c. 4 e trattamento integrativo
-            (erogazioni in denaro: si sommano al netto, non riducono l'imposta)
+ − contributi previdenziali    (base fermata al massimale)
+ ─────────────────────────────────────────────────────────
+ = reddito complessivo
+     IRPEF lorda per scaglioni    23% / 33% / 43%
+   − detrazioni       art. 13 + art. 12 + cuneo c. 6
+   = IRPEF netta      floor a zero: l'eccedenza si perde
+   − addizionali      solo se l'IRPEF netta è positiva,
+                      sul reddito complessivo, non
+                      ridotto dalle detrazioni
+ ─────────────────────────────────────────────────────────
+ + somma cuneo c. 4 e trattamento integrativo
+   erogazioni in denaro: si sommano al netto,
+   non riducono l'imposta
+ = NETTO
 ```
 
 Tre punti che non sono intuitivi e che il modello rispetta:
@@ -78,19 +83,19 @@ Su RAL 30.000, Lombardia, comunale 0,8%, senza carichi:
 
 | Voce | Questo calcolatore | Fonte esterna A | Fonte esterna B |
 |---|---|---|---|
-| Contributi | 2.757,00 | 2.757 ✓ | 2.757 ✓ |
-| Imponibile | 27.243,00 | 27.243 ✓ | 27.243 ✓ |
-| IRPEF lorda | 6.265,89 | 6.266 ✓ | 6.266 ✓ |
-| Detrazione art. 13 | **2.044,29** | 1.979 | ~1.766 |
-| Addizionale regionale | **377,94** | 424 | ~358 |
-| Netto annuale | **23.425,52** | 23.314 | ~23.167 |
+| Contributi | 2.757,00 | 2.757 | 2.757 |
+| Imponibile | 27.243,00 | 27.243 | 27.243 |
+| IRPEF lorda | 6.265,89 | 6.266 | 6.266 |
+| Detrazione art. 13 | 2.044,29 | 1.979 | ~1.766 |
+| Addizionale regionale | 377,94 | 424 | ~358 |
+| Netto annuale | 23.425,52 | 23.314 | ~23.167 |
 
-Le due divergenze si spiegano al centesimo, e in entrambi i casi la norma dà ragione a questo modello:
+Le differenze si concentrano su due voci, entrambe riconducibili a una norma precisa:
 
-- **+65 €** — l'art. 13 c. 1.1 aumenta la detrazione per reddito fra 25.000 e 35.000. Entrambe le fonti la omettono.
-- **+46,36 €** — la fonte A ha applicato l'aliquota regionale ai 30.000 di RAL invece che ai 27.243 di imponibile, pur usando l'imponibile per la comunale. L'art. 50 c. 2 D.Lgs. 446/1997 impone il reddito al netto degli oneri deducibili.
+- **65 €** sulla detrazione da lavoro: l'art. 13 c. 1.1 TUIR prevede una maggiorazione per reddito fra 25.000 e 35.000, che le due fonti non applicano.
+- **46,36 €** sull'addizionale regionale: la fonte A la calcola sui 30.000 di RAL, mentre l'art. 50 c. 2 D.Lgs. 446/1997 individua come base il reddito complessivo al netto degli oneri deducibili, cioè 27.243.
 
-`23.314,16 + 65 + 46,36 = 23.425,52`.
+Lo scarto torna: `23.314,16 + 65 + 46,36 = 23.425,52`.
 
 ## Fonti
 
