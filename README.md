@@ -2,7 +2,7 @@
 
 Calcolatore web che, a partire dalla retribuzione annua lorda, restituisce il netto annuo e mensile mostrando **ogni singola trattenuta**: contributi previdenziali, IRPEF lorda, detrazioni, addizionali regionale e comunale, cuneo fiscale e trattamento integrativo.
 
-**▶ [Apri il calcolatore](https://USERNAME.github.io/calcolatore-netto-2026/)**
+**▶ [Apri il calcolatore](https://Francesc38c03.github.io/calcolatore-netto-2026/)**
 
 ![Il calcolatore](docs/screenshot.png)
 
